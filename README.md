@@ -21,7 +21,7 @@ Leveraging Java 8, create an application that simulates simple banking transacti
     * canceling accounts
 *	Reasonable test coverage for the service layer is expected using JUnit.
     * TDD is encouraged.
-*	Logging should be accomplished using Log4J
+*	Logging should be accomplished using Logback or Log4j
     * All transactions should be logged
 
 * Create an SQL script that will create a user in an SQL database and a table schema for storing your bank users and account information.
