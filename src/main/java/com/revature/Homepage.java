@@ -15,6 +15,9 @@ public class Homepage {
 		
 		
 		
+		// this is a test
+		
+		
 		// these array lists are place holders
 		ArrayList<Person> people = new ArrayList<Person>();
 		ArrayList<Account> accounts = new ArrayList<Account>();
