@@ -15,10 +15,9 @@ public class Homepage {
 		
 		
 		
-		// declare 2 linkedlists, one for people and one for accounts
-		
-		LinkedList<Person> people = new LinkedList<Person>();
-		LinkedList<Account> accounts = new LinkedList<Account>();
+		// these array lists are place holders
+		ArrayList<Person> people = new ArrayList<Person>();
+		ArrayList<Account> accounts = new ArrayList<Account>();
 		
 		
 		
@@ -31,7 +30,8 @@ public class Homepage {
 		// we probably want to auto generate an admin account into the system
 		
 		
-		// while loop to keep the user locked in
+		
+		// this is the homepage while loop
 		while(true) {
 			// ask the user for input
 			System.out.println("Hello, welcome to the Bank of Fletcher Homepage");
@@ -41,10 +41,8 @@ public class Homepage {
 			// switch statement for what the user wants to do
 			switch (createOrLogin) {
 				case "A":
-					addName(people);
-					// this needs to print the actual object not the memory address
-					// use the toString() method?
-					System.out.println(people);
+					// adds a person to the ArrayList "people"
+					addPerson(people);
 					break;
 				case "C":
 					//call create account method
@@ -69,7 +67,7 @@ public class Homepage {
 		
 		
 	
-	public static void addName(LinkedList<Person> people) {
+	public static void addPerson(ArrayList<Person> people) {
 		
 		// create scanner
 		Scanner sc = new Scanner(System.in);
@@ -83,23 +81,23 @@ public class Homepage {
 			System.out.println("Please tell us your last name");
 			String lastName = sc.nextLine();
 			
-			
 			String userName = "";
 			boolean userNameMatch = true;
+			
+			userNameMatchLoop:
 			while (userNameMatch == true) {
-				// usernames must be unique
-				// iterate through the usernames in the database
-				// if theres a match then ask for a new one
-				// otherwise proceed
 				System.out.println("Please tell us your desired username");
 				userName = sc.nextLine();
-				
-				// search database for username match
+				// check through the ArrayList to see if the username already exists
+				for(int i = 0; i < people.size(); i++) {
+					if(people.get(i).getUserName().equals(userName)) {
+						System.out.println("This username already exists, please choose another.");
+						continue userNameMatchLoop;
+					}
+				}
 				userNameMatch = false;
-			
 			}
 			
-			// check the linkedList to make sure this userName doesn't exist
 			
 			System.out.println("Your first name is: " +firstName+
 								"\nYour last name is: "+lastName+
@@ -138,7 +136,6 @@ public class Homepage {
 				}
 			}
 
-			
 		}// end of addNameLoop
 	}// end of addName method
 	
@@ -150,17 +147,13 @@ public class Homepage {
 		// create a scanner object
 		Scanner sc = new Scanner(System.in);
 		
-		// label for breaking out
 		createAccountLoop:
 		while(true) {
 			
 			
+			// the username they input must match one in the "people" arraylist
 			System.out.println("Please input the user name under which you want this account created");
 			String username = sc.nextLine();
-			
-			// iterate through the database and check if theres a username match
-			// if true, proceed
-			// if false, ask for a new user name
 			
 			// input password
 			System.out.println("Please input your desired password");
@@ -215,6 +208,7 @@ public class Homepage {
 				// if the user approves their info, they're account info should be saved and an application for account approval should be generated
 				if (confirmAccInfo.equals("Y")) {
 					// make the customer object and store it in a list or set then break the loop
+					
 					System.out.println("Account approval application has been sent to the administrator");
 					break;
 				}
