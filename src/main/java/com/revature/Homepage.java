@@ -10,29 +10,10 @@ public class Homepage {
 		// create a scanner object
 		Scanner sc = new Scanner(System.in);
 		
-		
-		// if we need people to hold the accounts, we need a method to create people objects
-		
-		
-		
-		// this is a test
-		
-		
-		// these array lists are place holders
+		// these array lists are temporary
+		// we want to store our customers account info in a database of some kind
 		ArrayList<Person> people = new ArrayList<Person>();
 		ArrayList<Account> accounts = new ArrayList<Account>();
-		
-		
-		
-		// we want to store our customers account info in a database of some kind
-		// customers can only have 1 account so making the key an object should prevent that
-		// the value will be their balance
-		// change this to a list
-		
-		
-		// we probably want to auto generate an admin account into the system
-		
-		
 		
 		// this is the homepage while loop
 		while(true) {
@@ -49,7 +30,7 @@ public class Homepage {
 					break;
 				case "C":
 					//call create account method
-					createAccount();
+					createAccount(people);
 					break;
 				// login case
 				case "L":
@@ -145,18 +126,32 @@ public class Homepage {
 	
 	
 	
-	public static void createAccount() {
+	public static void createAccount(ArrayList<Person> people) {
 		
 		// create a scanner object
 		Scanner sc = new Scanner(System.in);
 		
 		createAccountLoop:
 		while(true) {
-			
-			
-			// the username they input must match one in the "people" arraylist
-			System.out.println("Please input the user name under which you want this account created");
-			String username = sc.nextLine();
+		
+		String userName = "";
+		
+			userNameMatchLoop:
+			while(true) {
+				// the username they input must match one in the "people" arraylist
+				System.out.println("Please input the user name under which you want this account created,"
+						+ " this username must be matched with one in our database of people");
+				userName = sc.nextLine();
+				
+				for(int i = 0; i < people.size(); i++) {
+					if(people.get(i).getUserName().equals(userName)) {
+						System.out.println("Username found");
+						break userNameMatchLoop;
+					}
+				}
+				// if we don't find the username, we ask them to input a new one
+				System.out.println("We couldn't find that username in our database of registered people, please try another");
+			}
 			
 			// input password
 			System.out.println("Please input your desired password");
@@ -201,7 +196,7 @@ public class Homepage {
 			while(true) {
 				
 				// print out a confirmation message to the user
-				System.out.println("Your username will be: " +username+
+				System.out.println("Your username will be: " +userName+
 									"\nYour password will be: " +password+
 									"\nYour account type is: " +accountType+
 									"\nYour access type is: " +temp+
