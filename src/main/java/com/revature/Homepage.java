@@ -35,7 +35,7 @@ public class Homepage {
 				// login case
 				case "L":
 					// call log in method
-					logIn(accounts);
+					logIn(people, accounts);
 					break;
 				// exit case
 				case "E":
@@ -235,14 +235,14 @@ public class Homepage {
 	}// end of createAccount method
 	
 	
-	public static void logIn(ArrayList<Account> accounts) {
+	public static void logIn(ArrayList<Person> people, ArrayList<Account> accounts) {
 		
 		Scanner sc = new Scanner(System.in);
 		
 		int indexOfUsername = 0;
 		
 		// ask the user for their username and then search the database for it
-		userNameSearchLoop:
+		usernameSearchLoop:
 		while(true) {
 			System.out.println("Please input your username");
 			String username = sc.nextLine();
@@ -251,14 +251,14 @@ public class Homepage {
 				if(accounts.get(i).getUsername().equals(username)) {
 					System.out.println("Username found");
 					indexOfUsername = i;
-					break userNameSearchLoop;
+					break usernameSearchLoop;
 				}
 			}
 			System.out.println("Username not found, try another or exit to the homepage? (T/E)");
 			String tryOrExit = sc.nextLine();
 			switch(tryOrExit) {
 				case "T":
-					continue userNameSearchLoop;
+					continue usernameSearchLoop;
 				
 				case "E":
 					return;
@@ -267,20 +267,26 @@ public class Homepage {
 		
 		
 		// password match loop
-		
-		System.out.println("Please input the password");
-		String password = sc.nextLine();
-		
-		// if the password at indexOfUsername equals password
-		if(accounts.get(indexOfUsername).getPassword().equals(password)){
-			System.out.println("Password accepted");
+		passwordMatchLoop:
+		while(true) {
+			System.out.println("Please input the password");
+			String password = sc.nextLine();
+			
+			// if the password at indexOfUsername equals password
+			if(accounts.get(indexOfUsername).getPassword().equals(password)){
+				System.out.println("Password accepted");
+				System.out.println("Welcome back, " +people.get(indexOfUsername).getFirstName());
+				break passwordMatchLoop;
+			}
+			System.out.println("Password not accepted, try again");
 		}
 		
 		
 		
+		// if the user has successfully logged in, check for the acessType
+		// call a class that corresponds with their accessType
 		
-		
-	}
+	}// end of logIn method
 	
 	
 	
