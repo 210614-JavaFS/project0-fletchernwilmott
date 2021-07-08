@@ -19,7 +19,7 @@ public class Homepage {
 		while(true) {
 			// ask the user for input
 			System.out.println("Hello, welcome to the Bank of Fletcher Homepage");
-			System.out.println("Would you like to add your name to our database, create an account, login, or exit? (A/C/L/E)");
+			System.out.println("Would you like to add your name to our database, create an account, log in, or exit? (A/C/L/E)");
 			String createOrLogin = sc.nextLine().toUpperCase();
 			
 			// switch statement for what the user wants to do
@@ -30,11 +30,12 @@ public class Homepage {
 					break;
 				case "C":
 					//call create account method
-					createAccount(people);
+					createAccount(people, accounts);
 					break;
 				// login case
 				case "L":
-					// call login class/method
+					// call log in method
+					logIn(accounts);
 					break;
 				// exit case
 				case "E":
@@ -65,34 +66,34 @@ public class Homepage {
 			System.out.println("Please tell us your last name");
 			String lastName = sc.nextLine();
 			
-			String userName = "";
-			boolean userNameMatch = true;
+			String username = "";
+			boolean usernameMatch = true;
 			
-			userNameMatchLoop:
-			while (userNameMatch == true) {
+			usernameMatchLoop:
+			while (usernameMatch == true) {
 				System.out.println("Please tell us your desired username");
-				userName = sc.nextLine();
+				username = sc.nextLine();
 				// check through the ArrayList to see if the username already exists
 				for(int i = 0; i < people.size(); i++) {
-					if(people.get(i).getUserName().equals(userName)) {
+					if(people.get(i).getUsername().equals(username)) {
 						System.out.println("This username already exists, please choose another.");
-						continue userNameMatchLoop;
+						continue usernameMatchLoop;
 					}
 				}
-				userNameMatch = false;
+				usernameMatch = false;
 			}
 			
 			
 			System.out.println("Your first name is: " +firstName+
 								"\nYour last name is: "+lastName+
-								"\nYour username is: " +userName+
+								"\nYour username is: " +username+
 								"\nIs this correct? (Y/N)");
 			
 			// confirm user input
 			String confirmAccInfo = sc.nextLine().toUpperCase();
 			if (confirmAccInfo.equals("Y")) {
 				System.out.println(firstName+ " has been added to the banks registrar");
-				people.add(new Person(firstName, lastName, userName));
+				people.add(new Person(firstName, lastName, username));
 				break;
 			}
 			// if the user doesn't like their account info, continue back to a new iteration of the loop
@@ -124,9 +125,7 @@ public class Homepage {
 	}// end of addName method
 	
 	
-	
-	
-	public static void createAccount(ArrayList<Person> people) {
+	public static void createAccount(ArrayList<Person> people, ArrayList<Account> accounts) {
 		
 		// create a scanner object
 		Scanner sc = new Scanner(System.in);
@@ -134,17 +133,17 @@ public class Homepage {
 		createAccountLoop:
 		while(true) {
 		
-		String userName = "";
-		
+			String username;
+			
 			userNameMatchLoop:
 			while(true) {
 				// the username they input must match one in the "people" arraylist
-				System.out.println("Please input the user name under which you want this account created,"
+				System.out.println("Please input the username under which you want this account created,"
 						+ " this username must be matched with one in our database of people");
-				userName = sc.nextLine();
+				username = sc.nextLine();
 				
 				for(int i = 0; i < people.size(); i++) {
-					if(people.get(i).getUserName().equals(userName)) {
+					if(people.get(i).getUsername().equals(username)) {
 						System.out.println("Username found");
 						break userNameMatchLoop;
 					}
@@ -196,17 +195,16 @@ public class Homepage {
 			while(true) {
 				
 				// print out a confirmation message to the user
-				System.out.println("Your username will be: " +userName+
+				System.out.println("Your username will be: " +username+
 									"\nYour password will be: " +password+
 									"\nYour account type is: " +accountType+
 									"\nYour access type is: " +temp+
 									"\nIs this correct? (Y/N)");
 				String confirmAccInfo = sc.nextLine().toUpperCase();
 			
-				// if the user approves their info, they're account info should be saved and an application for account approval should be generated
+				// if yes then create a new account and add it to the accounts ArrayList
 				if (confirmAccInfo.equals("Y")) {
-					// make the customer object and store it in a list or set then break the loop
-					
+					accounts.add(new Account(username, password, accountType, accessType));
 					System.out.println("Account approval application has been sent to the administrator");
 					break;
 				}
@@ -215,7 +213,6 @@ public class Homepage {
 					System.out.println("Ok, try and make your account again");
 					continue createAccountLoop;
 				}
-				// if the user enters an invalid option try again
 				else {
 					System.out.println("Not a valid option, try again");
 				}
@@ -236,6 +233,55 @@ public class Homepage {
 			}
 		}// end of outer while loop
 	}// end of createAccount method
+	
+	
+	public static void logIn(ArrayList<Account> accounts) {
+		
+		Scanner sc = new Scanner(System.in);
+		
+		int indexOfUsername = 0;
+		
+		// ask the user for their username and then search the database for it
+		userNameSearchLoop:
+		while(true) {
+			System.out.println("Please input your username");
+			String username = sc.nextLine();
+			
+			for(int i = 0; i < accounts.size(); i++) {
+				if(accounts.get(i).getUsername().equals(username)) {
+					System.out.println("Username found");
+					indexOfUsername = i;
+					break userNameSearchLoop;
+				}
+			}
+			System.out.println("Username not found, try another or exit to the homepage? (T/E)");
+			String tryOrExit = sc.nextLine();
+			switch(tryOrExit) {
+				case "T":
+					continue userNameSearchLoop;
+				
+				case "E":
+					return;
+			}
+		}
+		
+		
+		// password match loop
+		
+		System.out.println("Please input the password");
+		String password = sc.nextLine();
+		
+		// if the password at indexOfUsername equals password
+		if(accounts.get(indexOfUsername).getPassword().equals(password)){
+			System.out.println("Password accepted");
+		}
+		
+		
+		
+		
+		
+	}
+	
 	
 	
 }
