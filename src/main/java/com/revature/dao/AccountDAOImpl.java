@@ -17,7 +17,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public List<Account> findAllAccounts() {
 		try(Connection conn = ConnectionUtil.getConnection()){
-			String sql = "SELECT * FROM accounts";
+			String sql = "SELECT * FROM account_info";
 			
 			Statement statement = conn.createStatement();
 			
@@ -30,8 +30,8 @@ public class AccountDAOImpl implements AccountDAO {
 			while(result.next()) {
 				Account account = new Account();
 				account.setUsername(result.getString("username"));
-				account.setPassword(result.getString("password"));
-				account.setAccessType(result.getString("accessType"));
+				account.setPassword(result.getString("pass_word"));
+				account.setAccessType(result.getString("access_type"));
 				account.setBalance(result.getDouble("balance"));
 				accountList.add(account);
 			}
@@ -48,7 +48,7 @@ public class AccountDAOImpl implements AccountDAO {
 	@Override
 	public Account findByUsername(String username) {
 		try(Connection conn = ConnectionUtil.getConnection()){
-			String sql = "SELECT * FROM accounts WHERE username = ?;";
+			String sql = "SELECT * FROM account_info WHERE username = ?;";
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
@@ -63,8 +63,8 @@ public class AccountDAOImpl implements AccountDAO {
 			//moves the cursor forward one row, returns true if there is something
 			while(result.next()) {
 				account.setUsername(result.getString("username"));
-				account.setPassword(result.getString("password"));
-				account.setAccessType(result.getString("accessType"));
+				account.setPassword(result.getString("pass_word"));
+				account.setAccessType(result.getString("access_type"));
 				account.setBalance(result.getDouble("balance"));
 			}
 			
@@ -88,7 +88,7 @@ public class AccountDAOImpl implements AccountDAO {
 		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "INSERT INTO accounts (username, password, accessType, balance)"
+			String sql = "INSERT INTO accounts (username, pass_word, access_type, balance)"
 					+ "VALUES(?, ?, ?, ?);";
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
