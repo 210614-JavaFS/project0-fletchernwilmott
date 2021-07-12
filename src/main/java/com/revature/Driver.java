@@ -6,10 +6,12 @@ import java.util.Scanner;
 
 import com.revature.models.*;
 import com.revature.controllers.AccountController;
+import com.revature.controllers.LoginController;
 
 public class Driver {
 
 	private static AccountController accountController = new AccountController();
+	private static LoginController loginController = new LoginController();
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args)  {
@@ -23,9 +25,10 @@ public class Driver {
 				case "A":
 					break;
 				case "C":
-					accountController.accountMenu();
+					accountController.createAccount();
 					break;
 				case "L":
+					loginController.login();
 					break;
 				case "E":
 					System.out.println("Now exiting");
