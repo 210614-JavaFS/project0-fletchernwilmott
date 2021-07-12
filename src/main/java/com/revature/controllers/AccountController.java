@@ -19,7 +19,7 @@ public class AccountController {
 	
 	public void accountMenu() {
 		System.out.println("what would you like to do with your accounts?\n"
-				+ "1). see all accounts\n"
+				+ "1) see all accounts\n"
 				+ "2) see one account\n"
 				+ "3) add a new account\n"
 				+ "4) return to previous menu");
