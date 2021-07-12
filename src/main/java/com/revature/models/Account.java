@@ -5,21 +5,22 @@ public class Account {
 	private String username;
 	private String password;
 	private String accessType;
+	private int accountNumber;
 	private double balance;
 	
-	public Account (String username, String password, String accessType) {
+	public Account (int accountNumber, String username, String password, String accessType) {
 		
+		this.accountNumber = accountNumber;
 		this.username = username;
 		this.password = password;
 		this.accessType = accessType;
-		balance = 0;
-		
+		balance = 0;	
 	}
 	
 	public Account() {
 		super();
 	}
-	
+
 	public String getUsername() {
 		return username;
 	}
@@ -44,6 +45,14 @@ public class Account {
 		this.accessType = accessType;
 	}
 
+	public int getAccountNumber() {
+		return accountNumber;
+	}
+
+	public void setAccountNumber(int accountNumber) {
+		this.accountNumber = accountNumber;
+	}
+
 	public double getBalance() {
 		return balance;
 	}
@@ -57,6 +66,7 @@ public class Account {
 		final int prime = 31;
 		int result = 1;
 		result = prime * result + ((accessType == null) ? 0 : accessType.hashCode());
+		result = prime * result + accountNumber;
 		long temp;
 		temp = Double.doubleToLongBits(balance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -79,6 +89,8 @@ public class Account {
 				return false;
 		} else if (!accessType.equals(other.accessType))
 			return false;
+		if (accountNumber != other.accountNumber)
+			return false;
 		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
 			return false;
 		if (password == null) {
@@ -96,10 +108,9 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [username=" + username + ", password=" + password + ", accessType=" + accessType + ", balance="
-				+ balance + "]";
+		return "Account [username=" + username + ", password=" + password + ", accessType=" + accessType
+				+ ", accountNumber=" + accountNumber + ", balance=" + balance + "]";
 	}
-	
 	
 	
 	
