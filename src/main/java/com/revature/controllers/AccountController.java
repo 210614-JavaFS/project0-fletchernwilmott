@@ -22,7 +22,8 @@ public class AccountController {
 		int accountNumber = sc.nextInt();
 		sc.nextLine();
 		
-		System.out.println("Please input the username under which you want this account created");
+		System.out.println("Please input the username under which you want this account created"
+				+ "this must match a username in our database of registered users");
 		String username = sc.nextLine();
 		
 		System.out.println("Please input your desired password");
@@ -54,7 +55,15 @@ public class AccountController {
 			}
 		}
 		
-		Account account = new Account(accountNumber, username, password, accessType);
+		System.out.println("Next, please enter whether this will be a checkings or savings account (C/S).");
+		String accountType = sc.nextLine().toUpperCase();
+		
+		if(!accountType.equals("C") && !accountType.equals("S")){
+			System.out.println("Your account type is incorrect, try again");
+			createAccount();
+		}
+
+		Account account = new Account(accountNumber, username, password, accessType, accountType);
 		
 		if(accountService.addAccount(account)) {
 			System.out.println("Your account was added to the database");

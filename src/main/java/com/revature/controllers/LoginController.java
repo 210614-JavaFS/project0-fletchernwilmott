@@ -29,8 +29,7 @@ public class LoginController {
 		int accountNumResponse = sc.nextInt();
 		sc.nextLine();
 		
-		String loggedIn = loginService.loginCheck(accountNumResponse ,usernameResponse, passwordResponse);
-		//int account_number = loginService.getAccountNumber(usernameResponse, passwordResponse);
+		String loggedIn = loginService.loginCheck(accountNumResponse, usernameResponse, passwordResponse);
 		
 		if(loggedIn.equals("C")) {
 			customerMenu(accountNumResponse);
@@ -121,8 +120,13 @@ public class LoginController {
 			
 			switch(response) {
 			case "1":
+				System.out.println("Plese input the account number of the account you want to view");
+				int targetAccount = sc.nextInt();
+				sc.nextLine();
+				showOneCustomer(targetAccount);
 				break;
 			case "2":
+				System.out.println("Plese input the username of the person you want to view");
 				break;
 			case "3":
 				break;
@@ -133,10 +137,19 @@ public class LoginController {
 				System.out.println("Not a valid option, try again");
 			}
 		}
-		
 	}
 	
 	
+	private void showOneCustomer(int targetAccount) {
+		Account account = loginService.getOneAccount(targetAccount);
+		if(account != null) {
+			System.out.println(account);
+		}
+		else {
+			System.out.println("Something went wrong, returning to menu");
+		}
+	}
+
 	public void adminMenu(int accountNum) {
 		
 		adminMenuLoop:
@@ -181,20 +194,5 @@ public class LoginController {
 		for(Account a:accounts) {
 			System.out.println(a);
 		}
-	}
-	
-	private void showOneAccount() {
-		System.out.println("What is the username of the account you want to see?");
-		String response = sc.nextLine();
-		/*Account account = accountService.getAccount(response);
-		
-		if(account != null) {
-			System.out.println(account);
-		}
-		else {
-			System.out.println("Username not found, try again");
-			showOneAccount();
-		}
-		*/
 	}
 }

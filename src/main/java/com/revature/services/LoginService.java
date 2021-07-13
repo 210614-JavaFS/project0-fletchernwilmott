@@ -14,6 +14,9 @@ public class LoginService {
 		return loginDAO.loginCheck(accountNumber, username, password);
 	}
 	
+	
+	// customer methods
+	
 	public boolean getDeposit(int accountNum, double deposit) {
 		return loginDAO.setDeposit(accountNum, deposit);
 	}
@@ -26,6 +29,15 @@ public class LoginService {
 		return loginDAO.setTransfer(accountNum, targetAccount, transfer);
 	}
 	
+	
+	// employee methods
+	
+	public Account getOneAccount(int targetAccount) {
+		return loginDAO.getOneAccount(targetAccount);
+	}
+	
+	
+	
 //	public Account getAccount(String username) {
 //		return accountDAO.findByUsername(username);
 //	}
@@ -33,6 +45,8 @@ public class LoginService {
 	public List<Account> getAllAccounts (){
 		return loginDAO.findAllAccounts();
 	}
+
+	
 
 
 	

@@ -2,18 +2,20 @@ package com.revature.models;
 
 public class Account {
 	
+	private int accountNumber;
 	private String username;
 	private String password;
 	private String accessType;
-	private int accountNumber;
+	private String accountType;
 	private double balance;
 	
-	public Account (int accountNumber, String username, String password, String accessType) {
+	public Account (int accountNumber, String username, String password, String accessType, String accountType) {
 		
 		this.accountNumber = accountNumber;
 		this.username = username;
 		this.password = password;
 		this.accessType = accessType;
+		this.accountType = accountType;
 		balance = 0;	
 	}
 	
@@ -52,6 +54,14 @@ public class Account {
 	public void setAccountNumber(int accountNumber) {
 		this.accountNumber = accountNumber;
 	}
+	
+	public String getAccountType() {
+		return accountType;
+	}
+	
+	public void setAccountType(String accountType) {
+		this.accountType = accountType;
+	}
 
 	public double getBalance() {
 		return balance;
@@ -67,6 +77,7 @@ public class Account {
 		int result = 1;
 		result = prime * result + ((accessType == null) ? 0 : accessType.hashCode());
 		result = prime * result + accountNumber;
+		result = prime * result + ((accountType == null) ? 0 : accountType.hashCode());
 		long temp;
 		temp = Double.doubleToLongBits(balance);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
@@ -91,6 +102,11 @@ public class Account {
 			return false;
 		if (accountNumber != other.accountNumber)
 			return false;
+		if (accountType == null) {
+			if (other.accountType != null)
+				return false;
+		} else if (!accountType.equals(other.accountType))
+			return false;
 		if (Double.doubleToLongBits(balance) != Double.doubleToLongBits(other.balance))
 			return false;
 		if (password == null) {
@@ -108,13 +124,8 @@ public class Account {
 
 	@Override
 	public String toString() {
-		return "Account [username=" + username + ", password=" + password + ", accessType=" + accessType
-				+ ", accountNumber=" + accountNumber + ", balance=" + balance + "]";
+		return "Account [accountNumber=" + accountNumber + ", username=" + username + ", password=" + password
+				+ ", accessType=" + accessType + ", accountType=" + accountType + ", balance=" + balance + "]";
 	}
-	
-	
-	
-	
-	
 	
 }
