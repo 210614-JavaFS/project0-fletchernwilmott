@@ -14,9 +14,12 @@ public interface LoginDAO {
 	
 	// employee methods
 	public Account getOneAccount(int targetAccount);
+	public Person getOnePerson(String targetUsername);
 	
 	// admin methods
 	public List<Account> findAllAccounts();
+
+	
 
 	
 }

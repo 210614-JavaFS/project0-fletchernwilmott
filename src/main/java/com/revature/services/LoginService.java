@@ -5,6 +5,7 @@ import java.util.List;
 import com.revature.dao.LoginDAO;
 import com.revature.dao.LoginDAOImpl;
 import com.revature.models.Account;
+import com.revature.models.Person;
 
 public class LoginService {
 
@@ -36,7 +37,9 @@ public class LoginService {
 		return loginDAO.getOneAccount(targetAccount);
 	}
 	
-	
+	public Person getOnePerson(String targetUsername) {
+		return loginDAO.getOnePerson(targetUsername);
+	}
 	
 //	public Account getAccount(String username) {
 //		return accountDAO.findByUsername(username);
@@ -45,6 +48,9 @@ public class LoginService {
 	public List<Account> getAllAccounts (){
 		return loginDAO.findAllAccounts();
 	}
+
+
+
 
 	
 
