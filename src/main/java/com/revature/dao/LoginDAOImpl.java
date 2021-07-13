@@ -210,6 +210,42 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 	
 	
+	
+	@Override
+	public Account getOneAccount(int targetAccount) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM account_info WHERE account_number = ? AND access_type = 'C';";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setInt(1, targetAccount);
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next() == false) {
+				System.out.println("Couldn't find any customer accounts that match that number, returning");
+				return null;
+			}
+			
+			Account account = new Account();
+			account.setAccountNumber(result.getInt("account_number"));
+			account.setUsername(result.getString("username"));
+			account.setPassword(result.getString("pass_word"));
+			account.setAccessType(result.getString("access_type"));
+			account.setAccountType(result.getString("account_type"));
+			account.setBalance(result.getDouble("balance"));
+			System.out.println(account.getAccountNumber());
+			return account;
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	
+	
 	@Override
 	public List<Account> findAllAccounts() {
 		try(Connection conn = ConnectionUtil.getConnection()){
@@ -229,6 +265,7 @@ public class LoginDAOImpl implements LoginDAO {
 				account.setUsername(result.getString("username"));
 				account.setPassword(result.getString("pass_word"));
 				account.setAccessType(result.getString("access_type"));
+				account.setAccountType(result.getString("account_type"));
 				account.setBalance(result.getDouble("balance"));
 				accountList.add(account);
 			}
@@ -241,47 +278,4 @@ public class LoginDAOImpl implements LoginDAO {
 		}
 		return null;
 	}
-
-
-
-
-
-
-
-//	@Override
-//	public Account findByUsername(String username) {
-//		try(Connection conn = ConnectionUtil.getConnection()){
-//			String sql = "SELECT * FROM account_info WHERE username = ?;";
-//			
-//			PreparedStatement statement = conn.prepareStatement(sql);
-//			
-//			//this is where sql injection is checked for
-//			statement.setString(1, username);
-//			
-//			ResultSet result = statement.executeQuery();
-//			
-//			Account account = new Account();
-//			
-//			//Result sets have a cursor similar to Scanners
-//			//moves the cursor forward one row, returns true if there is something
-//			while(result.next()) {
-//				account.setUsername(result.getString("username"));
-//				account.setPassword(result.getString("pass_word"));
-//				account.setAccessType(result.getString("access_type"));
-//				account.setBalance(result.getDouble("balance"));
-//			}
-//			
-//			return account;
-//			
-//		}
-//		catch(SQLException e) {
-//			e.printStackTrace();
-//		}
-//		return null;
-//	}
-	
-	
-	
-	
-	
 }

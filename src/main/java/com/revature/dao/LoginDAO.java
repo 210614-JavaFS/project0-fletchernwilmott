@@ -12,6 +12,11 @@ public interface LoginDAO {
 	public boolean setWithdrawl(int accountNum, double withdrawl);
 	public boolean setTransfer(int accountNum, int targetAccount, double transfer);
 	
+	// employee methods
+	public Account getOneAccount(int targetAccount);
+	
 	// admin methods
 	public List<Account> findAllAccounts();
+
+	
 }

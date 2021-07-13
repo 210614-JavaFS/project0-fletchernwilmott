@@ -19,8 +19,8 @@ public class AccountDAOImpl implements AccountDAO {
 		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "INSERT INTO account_info (account_number, username, pass_word, access_type, balance)"
-					+ "VALUES(?, ?, ?, ?, ?);";
+			String sql = "INSERT INTO account_info (account_number, username, pass_word, access_type, account_type, balance)"
+					+ "VALUES(?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
 			
@@ -30,6 +30,7 @@ public class AccountDAOImpl implements AccountDAO {
 			statement.setString(++index, account.getUsername());
 			statement.setString(++index, account.getPassword());
 			statement.setString(++index, account.getAccessType());
+			statement.setString(++index, account.getAccountType());
 			statement.setDouble(++index, account.getBalance());
 			
 			statement.execute();
