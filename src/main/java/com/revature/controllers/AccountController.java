@@ -22,7 +22,7 @@ public class AccountController {
 		int accountNumber = sc.nextInt();
 		sc.nextLine();
 		
-		System.out.println("Please input the username under which you want this account created"
+		System.out.println("Please input the username under which you want this account created\n"
 				+ "this must match a username in our database of registered users");
 		String username = sc.nextLine();
 		

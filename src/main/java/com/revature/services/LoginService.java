@@ -50,6 +50,12 @@ public class LoginService {
 	}
 
 
+	public void deleteAccount(int targetAccount) {
+		loginDAO.deleteAccount(targetAccount);
+		
+	}
+
+
 
 
 	
