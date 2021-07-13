@@ -1,5 +1,8 @@
 package com.revature.dao;
 
-public interface PersonDAO {
+import java.util.*;
+import com.revature.models.*;
 
+public interface PersonDAO {
+	public boolean addPerson(Person person);
 }

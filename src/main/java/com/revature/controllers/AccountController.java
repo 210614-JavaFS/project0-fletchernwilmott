@@ -18,7 +18,7 @@ public class AccountController {
 	public void createAccount() {
 		System.out.println("Welcome to the account creator");
 		
-		System.out.println("Lastly, please tell us what you want your account number to be");
+		System.out.println("First, please tell us what you want your account number to be");
 		int accountNumber = sc.nextInt();
 		sc.nextLine();
 		

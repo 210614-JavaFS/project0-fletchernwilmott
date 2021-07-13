@@ -14,8 +14,16 @@ public class LoginService {
 		return loginDAO.loginCheck(accountNumber, username, password);
 	}
 	
-	public double getDeposit(Double deposit) {
-		return loginDAO.setDeposit(deposit);
+	public boolean getDeposit(int accountNum, double deposit) {
+		return loginDAO.setDeposit(accountNum, deposit);
+	}
+	
+	public boolean getWithdrawl(int accountNum, double withdrawl) {
+		return loginDAO.setWithdrawl(accountNum, withdrawl);
+	}
+	
+	public boolean getTransfer(int accountNum, int targetAccount, double transfer) {
+		return loginDAO.setTransfer(accountNum, targetAccount, transfer);
 	}
 	
 //	public Account getAccount(String username) {
@@ -25,6 +33,9 @@ public class LoginService {
 	public List<Account> getAllAccounts (){
 		return loginDAO.findAllAccounts();
 	}
+
+
+	
 	
 	
 	
