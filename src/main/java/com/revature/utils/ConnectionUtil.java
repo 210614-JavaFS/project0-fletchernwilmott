@@ -16,6 +16,8 @@ public class ConnectionUtil {
 		}
 		
 		String url = "jdbc:postgresql://java-react-batch.cchuth94zv3i.us-east-2.rds.amazonaws.com:5432/demos";
+		
+		// this is bad practice
 		String username = "postgres";
 		String password = "password";
 		return DriverManager.getConnection(url, username, password);

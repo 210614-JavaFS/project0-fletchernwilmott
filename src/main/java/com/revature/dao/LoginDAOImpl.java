@@ -9,6 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.revature.models.Account;
+import com.revature.models.Person;
 import com.revature.utils.ConnectionUtil;
 
 public class LoginDAOImpl implements LoginDAO {
@@ -49,6 +50,7 @@ public class LoginDAOImpl implements LoginDAO {
 		return "N";
 	}
 	
+	// customer methods
 	
 	@Override
 	public boolean setDeposit(int accountNum, double deposit) {
@@ -210,6 +212,7 @@ public class LoginDAOImpl implements LoginDAO {
 	}
 	
 	
+	// employee methods
 	
 	@Override
 	public Account getOneAccount(int targetAccount) {
@@ -244,7 +247,37 @@ public class LoginDAOImpl implements LoginDAO {
 		return null;
 	}
 	
+	@Override
+	public Person getOnePerson(String targetUsername) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM user_info WHERE username = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setString(1, targetUsername);
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next() == false) {
+				System.out.println("Couldn't find any user that matches that username, returning");
+				return null;
+			}
+			
+			Person person = new Person();
+			person.setUsername(result.getString("username"));
+			person.setFirstName(result.getString("first_name"));
+			person.setLastName(result.getString("last_name"));
+			return person;
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 	
+	
+	// admin methods
 	
 	@Override
 	public List<Account> findAllAccounts() {
@@ -278,4 +311,7 @@ public class LoginDAOImpl implements LoginDAO {
 		}
 		return null;
 	}
+
+
+
 }

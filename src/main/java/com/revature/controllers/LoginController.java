@@ -5,6 +5,7 @@ import java.util.Scanner;
 
 
 import com.revature.models.Account;
+import com.revature.models.Person;
 import com.revature.services.LoginService;
 
 
@@ -75,11 +76,11 @@ public class LoginController {
 				makeWithdrawl(accountNum, withdrawl);
 				break;
 			case "3":
-				System.out.println("Please input the amount of money you would like to transfer");
-				double transfer = sc.nextDouble();
-				sc.nextLine();
 				System.out.println("Please input the account number you want to send the money to");
 				int targetAccount = sc.nextInt();
+				sc.nextLine();
+				System.out.println("Please input the amount of money you would like to transfer");
+				double transfer = sc.nextDouble();
 				sc.nextLine();
 				makeTransfer(accountNum, targetAccount, transfer);
 				break;
@@ -127,8 +128,11 @@ public class LoginController {
 				break;
 			case "2":
 				System.out.println("Plese input the username of the person you want to view");
+				String targetUsername = sc.nextLine();
+				showOnePerson(targetUsername);
 				break;
 			case "3":
+				//do later
 				break;
 			case "4":
 				System.out.println("Logging out, returning to homepage");
@@ -139,7 +143,6 @@ public class LoginController {
 		}
 	}
 	
-	
 	private void showOneCustomer(int targetAccount) {
 		Account account = loginService.getOneAccount(targetAccount);
 		if(account != null) {
@@ -149,7 +152,18 @@ public class LoginController {
 			System.out.println("Something went wrong, returning to menu");
 		}
 	}
+	
+	private void showOnePerson(String targetUsername) {
+		Person person = loginService.getOnePerson(targetUsername);
+		if(person != null) {
+			System.out.println(person);
+		}
+		else {
+			System.out.println("Something went wrong, returning to menu");
+		}
+	}
 
+	
 	public void adminMenu(int accountNum) {
 		
 		adminMenuLoop:
@@ -165,16 +179,52 @@ public class LoginController {
 			
 			
 			String response = sc.nextLine();
+			int sourceAccount = 0;
+			int targetAccount = 0;
+			double deposit = 0;
+			double withdrawl = 0;
+			double transfer = 0;
+			
 			
 			switch(response) {
 				case "1":
 					showAllAccounts();
 					break;
 				case "2":
+					System.out.println("Please enter the account number of the account you want to deposit to");
+					targetAccount = sc.nextInt();
+					sc.nextLine();
+					
+					System.out.println("Please enter the amount of money want to deposit");
+					deposit = sc.nextDouble();
+					sc.nextLine();
+					
+					makeDeposit(targetAccount, deposit);
 					break;
 				case "3":
+					System.out.println("Please enter the account number of the account you want to withdraw from");
+					targetAccount = sc.nextInt();
+					sc.nextLine();
+					
+					System.out.println("Please input the amount of money you would like to withdraw");
+					withdrawl = sc.nextDouble();
+					sc.nextLine();
+					makeWithdrawl(targetAccount, withdrawl);
 					break;
 				case "4":
+					System.out.println("Please input the account number you want to take the money from");
+					sourceAccount = sc.nextInt();
+					sc.nextLine();
+					
+					System.out.println("Please input the account number you want to transfer the money to");
+					targetAccount = sc.nextInt();
+					sc.nextLine();
+					
+					System.out.println("Please input the amount of money you would like to transfer");
+					transfer = sc.nextDouble();
+					sc.nextLine();
+					
+					makeTransfer(sourceAccount, targetAccount, transfer);
 					break;
 				case "5":
 					break;
