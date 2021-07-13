@@ -18,6 +18,7 @@ public interface LoginDAO {
 	
 	// admin methods
 	public List<Account> findAllAccounts();
+	public void deleteAccount(int targetAccount);
 
 	
 

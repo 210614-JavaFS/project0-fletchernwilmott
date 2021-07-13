@@ -312,6 +312,42 @@ public class LoginDAOImpl implements LoginDAO {
 		return null;
 	}
 
+	@Override
+	public void deleteAccount(int targetAccount) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM account_info WHERE account_number = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setInt(1, targetAccount);
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next() == false) {
+				System.out.println("Couldn't find any account that matches that account number, returning");
+				return;
+			}
+			
+			String sql1 = "DELETE FROM account_info WHERE account_number = ?;";
+			
+			PreparedStatement deleteAccount = conn.prepareStatement(sql1);
+			
+			deleteAccount.setInt(1, targetAccount);
+			
+			deleteAccount.executeUpdate();
+			
+			System.out.println("Account number " +targetAccount+ " successfully deleted");
+			
+			return;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return;
+		
+	}
+
 
 
 }

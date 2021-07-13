@@ -3,14 +3,9 @@ package com.revature.controllers;
 import java.util.List;
 import java.util.Scanner;
 
-
 import com.revature.models.Account;
 import com.revature.models.Person;
 import com.revature.services.LoginService;
-
-
-import org.slf4j.LoggerFactory;
-import org.slf4j.Logger;
 
 public class LoginController {
 
@@ -229,6 +224,10 @@ public class LoginController {
 				case "5":
 					break;
 				case "6":
+					System.out.println("Please enter the account number of the account you want to delete");
+					targetAccount = sc.nextInt();
+					sc.nextLine();
+					deleteAccount(targetAccount);
 					break;
 				case "7":
 					System.out.println("Logging out, returning to homepage");
@@ -239,6 +238,10 @@ public class LoginController {
 		}
 	}
 	
+	private void deleteAccount(int targetAccount) {
+		loginService.deleteAccount(targetAccount);
+	}
+
 	private void showAllAccounts() {
 		List<Account> accounts = loginService.getAllAccounts();
 		for(Account a:accounts) {
