@@ -22,6 +22,7 @@ INSERT INTO user_info(username, first_name, last_name)
 	('customer1', 'clinton', 'obi');
 	
 
-INSERT INTO account_info(account_number, username, pass_word, access_type)
-	VALUES(1, 'admin1', 'admin1', 'A'),
-	(2, 'employee1', 'employee1', 'E');
+INSERT INTO account_info(account_number, username, pass_word, access_type, balance)
+	VALUES(1, 'admin1', 'admin1', 'A', 0),
+	(2, 'employee1', 'employee1', 'E', 0);
+	

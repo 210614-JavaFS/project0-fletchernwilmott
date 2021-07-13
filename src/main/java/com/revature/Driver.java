@@ -7,11 +7,13 @@ import java.util.Scanner;
 import com.revature.models.*;
 import com.revature.controllers.AccountController;
 import com.revature.controllers.LoginController;
+import com.revature.controllers.PersonController;
 
 public class Driver {
 
 	private static AccountController accountController = new AccountController();
 	private static LoginController loginController = new LoginController();
+	private static PersonController personController = new PersonController();
 	private static Scanner sc = new Scanner(System.in);
 	
 	public static void main(String[] args)  {
@@ -23,6 +25,7 @@ public class Driver {
 			
 			switch(response) {
 				case "A":
+					personController.createPerson();
 					break;
 				case "C":
 					accountController.createAccount();
