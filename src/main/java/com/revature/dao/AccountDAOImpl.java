@@ -19,7 +19,7 @@ public class AccountDAOImpl implements AccountDAO {
 		
 		try(Connection conn = ConnectionUtil.getConnection()){
 			
-			String sql = "INSERT INTO account_info (account_number, username, pass_word, access_type, account_type, balance)"
+			String sql = "INSERT INTO account_applications (account_number, username, pass_word, access_type, account_type, balance)"
 					+ "VALUES(?, ?, ?, ?, ?, ?);";
 			
 			PreparedStatement statement = conn.prepareStatement(sql);
@@ -39,7 +39,7 @@ public class AccountDAOImpl implements AccountDAO {
 				
 		}
 		catch(SQLException e) {
-			e.printStackTrace();
+			System.out.println("Something went wrong, account not added");
 		}
 		
 		return false;

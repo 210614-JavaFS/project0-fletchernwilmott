@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -18,12 +19,25 @@ public class AccountController {
 	public void createAccount() {
 		System.out.println("Welcome to the account creator");
 		
-		System.out.println("First, please tell us what you want your account number to be");
-		int accountNumber = sc.nextInt();
-		sc.nextLine();
+		int accountNumber = 0;
 		
-		System.out.println("Please input the username under which you want this account created\n"
-				+ "this must match a username in our database of registered users");
+		System.out.println("First, please tell us what you want your account number to be, it must be unique");
+		try{
+			accountNumber = sc.nextInt();
+			sc.nextLine();
+		}
+		catch(InputMismatchException e) {
+			System.out.println("Not an integer, start again");
+			createAccount();
+		}
+		
+		if(accountNumber < 1) {
+			System.out.println("Account number cannot be 0 or less, try again");
+			createAccount();
+		}
+		
+		System.out.println("Next, please input the username under which you want this account created\n"
+				+ "This must match a username in our database of registered users");
 		String username = sc.nextLine();
 		
 		System.out.println("Please input your desired password");
@@ -66,10 +80,7 @@ public class AccountController {
 		Account account = new Account(accountNumber, username, password, accessType, accountType);
 		
 		if(accountService.addAccount(account)) {
-			System.out.println("Your account was added to the database");
-		}
-		else {
-			System.out.println("Something went wrong, account not added");
+			System.out.println("Your account was application was created");
 		}
 	}
 }

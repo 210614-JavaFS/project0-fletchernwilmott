@@ -237,7 +237,6 @@ public class LoginDAOImpl implements LoginDAO {
 			account.setAccessType(result.getString("access_type"));
 			account.setAccountType(result.getString("account_type"));
 			account.setBalance(result.getDouble("balance"));
-			System.out.println(account.getAccountNumber());
 			return account;
 
 		}
@@ -276,6 +275,194 @@ public class LoginDAOImpl implements LoginDAO {
 		return null;
 	}
 	
+	@Override
+	public Account getAccountCopy(int targetAccount) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM account_applications WHERE account_number = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setInt(1, targetAccount);
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next() == false) {
+				System.out.println("Couldn't find any customer accounts that match that number, returning");
+				return null;
+			}
+			
+			Account account = new Account();
+			account.setAccountNumber(result.getInt("account_number"));
+			account.setUsername(result.getString("username"));
+			account.setPassword(result.getString("pass_word"));
+			account.setAccessType(result.getString("access_type"));
+			account.setAccountType(result.getString("account_type"));
+			account.setBalance(result.getDouble("balance"));
+			return account;
+
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public void pasteAccount(Account account) {
+			try(Connection conn = ConnectionUtil.getConnection()){
+			
+			String sql = "INSERT INTO account_info (account_number, username, pass_word, access_type, account_type, balance)"
+					+ "VALUES(?, ?, ?, ?, ?, ?);";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			int index = 0;
+			
+			statement.setInt(++index, account.getAccountNumber());
+			statement.setString(++index, account.getUsername());
+			statement.setString(++index, account.getPassword());
+			statement.setString(++index, account.getAccessType());
+			statement.setString(++index, account.getAccountType());
+			statement.setDouble(++index, account.getBalance());
+			
+			statement.execute();
+			
+			return;
+				
+		}
+		catch(SQLException e) {
+			System.out.println("Something went wrong, account not added");
+		}
+		
+		return;
+	}
+	
+	@Override
+	public void deleteApplication(int targetAccount, String applicationResponse) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM account_applications WHERE account_number = ?;";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			statement.setInt(1, targetAccount);
+			
+			ResultSet result = statement.executeQuery();
+			
+			if(result.next() == false) {
+				System.out.println("Couldn't find any account that matches that account number, returning");
+				return;
+			}
+			
+			String sql1 = "DELETE FROM account_applications WHERE account_number = ?;";
+			
+			PreparedStatement deleteAccount = conn.prepareStatement(sql1);
+			
+			deleteAccount.setInt(1, targetAccount);
+			
+			deleteAccount.executeUpdate();
+			
+			if(applicationResponse.equals("A")) {
+				System.out.println("Account with account number " +targetAccount+ " approved");
+
+			}
+			else {
+				System.out.println("Account with account number " +targetAccount+ " was not approved");
+			}
+			return;
+			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return;
+		
+	}
+	
+	
+	@Override
+	public void accessApplications(int targetAccount, String applicationResponse) {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			
+			if(applicationResponse.equals("A")) {
+				
+				String sql1 = "DELETE FROM account_applications WHERE account_number = ?;";
+				
+				PreparedStatement deleteAccount = conn.prepareStatement(sql1);
+				
+				deleteAccount.setInt(1, targetAccount);
+				
+				deleteAccount.execute();
+				
+				// save the info of the account application to an account object
+				// delete the application from the table
+				// insert the account object info into the account_info table
+				
+				/*
+				String sql = "SELECT * FROM account_applications WHERE account_number = ?;";
+				
+				PreparedStatement statement = conn.prepareStatement(sql);
+				
+				statement.setInt(1, targetAccount);
+				
+				ResultSet result = statement.executeQuery();
+				
+				if(result.next() == false) {
+					System.out.println("Couldn't find any customer accounts that match that number, returning");
+					return;
+				}
+				
+				Account account = new Account();
+				account.setAccountNumber(result.getInt("account_number"));
+				account.setUsername(result.getString("username"));
+				account.setPassword(result.getString("pass_word"));
+				account.setAccessType(result.getString("access_type"));
+				account.setAccountType(result.getString("account_type"));
+				account.setBalance(result.getDouble("balance"));
+				
+				
+				
+				
+				
+				// add the newly created account object into the 
+				
+				String sql2 = "INSERT INTO account_applications (account_number, username, pass_word, access_type, account_type, balance)"
+						+ "VALUES(?, ?, ?, ?, ?, ?);";
+				
+				PreparedStatement insertAccountInfo = conn.prepareStatement(sql2);
+				
+				int index = 0;
+				
+				insertAccountInfo.setInt(++index, account.getAccountNumber());
+				insertAccountInfo.setString(++index, account.getUsername());
+				insertAccountInfo.setString(++index, account.getPassword());
+				insertAccountInfo.setString(++index, account.getAccessType());
+				insertAccountInfo.setString(++index, account.getAccountType());
+				insertAccountInfo.setDouble(++index, account.getBalance());
+				
+				insertAccountInfo.execute();
+				
+				System.out.println("The account with account number " +account.getAccountNumber()+ " was approved and is now ready for use");
+				
+			}
+			else {
+				String sql1 = "DELETE FROM account_applications WHERE account_number = ?;";
+				
+				PreparedStatement deleteAccount = conn.prepareStatement(sql1);
+				
+				deleteAccount.setInt(1, targetAccount);
+				
+				deleteAccount.executeUpdate();
+				
+				System.out.println("The account with account number " +targetAccount+ " was approved and is now ready for use");
+				*/
+			}
+		}
+		catch(SQLException e) {
+				e.printStackTrace();
+		}
+			
+	}
+			
 	
 	// admin methods
 	
@@ -305,6 +492,36 @@ public class LoginDAOImpl implements LoginDAO {
 			
 			return accountList;
 			
+		}
+		catch(SQLException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
+	@Override
+	public List<Account> findAllApplications() {
+		try(Connection conn = ConnectionUtil.getConnection()){
+			String sql = "SELECT * FROM account_applications";
+			
+			PreparedStatement statement = conn.prepareStatement(sql);
+			
+			ResultSet result = statement.executeQuery();
+			
+			List<Account> accountList = new ArrayList<>();
+			
+			while(result.next()) {
+				Account account = new Account();
+				account.setAccountNumber(result.getInt("account_number"));
+				account.setUsername(result.getString("username"));
+				account.setPassword(result.getString("pass_word"));
+				account.setAccessType(result.getString("access_type"));
+				account.setAccountType(result.getString("account_type"));
+				account.setBalance(result.getDouble("balance"));
+				accountList.add(account);
+			}
+			
+			return accountList;
 		}
 		catch(SQLException e) {
 			e.printStackTrace();
@@ -347,6 +564,17 @@ public class LoginDAOImpl implements LoginDAO {
 		return;
 		
 	}
+
+
+
+
+
+	
+
+
+	
+
+	
 
 
 

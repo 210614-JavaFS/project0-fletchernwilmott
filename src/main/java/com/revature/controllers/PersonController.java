@@ -24,7 +24,7 @@ public class PersonController {
 		System.out.println("First, please tell us your first name");
 		String firstName = sc.nextLine();
 		
-		System.out.println("Next. please tell us your last name");
+		System.out.println("Next, please tell us your last name");
 		String lastName = sc.nextLine();
 		
 		System.out.println("Finally, please input your desired username");
