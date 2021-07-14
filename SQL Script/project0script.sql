@@ -1,4 +1,5 @@
 DROP TABLE IF EXISTS account_info;
+DROP TABLE IF EXISTS account_applications;
 DROP TABLE IF EXISTS user_info;
 
 CREATE TABLE user_info(
@@ -17,6 +18,15 @@ balance numeric(20,2),
 join_date timestamp DEFAULT current_timestamp
 );
 
+CREATE TABLE account_applications(
+account_number integer PRIMARY KEY,
+username varchar(50)  REFERENCES user_info(username),
+pass_word varchar(30) NOT NULL,
+access_type varchar(1) NOT NULL,
+account_type varchar(1) NOT NULL,
+balance numeric(20,2)
+);
+
 INSERT INTO user_info(username, first_name, last_name)
 	VALUES('admin1', 'fletcher', 'wilmott'),
 	('employee1', 'tom', 'woods'),
@@ -28,7 +38,15 @@ INSERT INTO account_info(account_number, username, pass_word, access_type, accou
 	(2, 'employee1', 'employee1', 'E', 'C', 0),
 	(3, 'customer1', 'customer1', 'C', 'C', 50);
 	
-DELETE FROM account_info WHERE account_number = 5;
+DELETE FROM account_applications WHERE account_number = 5;
 DELETE FROM user_info WHERE username = 'freedom';
 
 SELECT * FROM account_info WHERE account_number = 3 AND account_type = 'C';
+
+DELETE FROM account_info WHERE account_number = 5;
+
+
+INSERT INTO account_applications(account_number, username, pass_word, access_type, account_type, balance)
+	values(5, 'evan1', 'evan1', 'C', 'C', '0');
+
+SELECT * FROM account_applications WHERE account_number = 5;

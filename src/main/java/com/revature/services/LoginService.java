@@ -49,20 +49,32 @@ public class LoginService {
 		return loginDAO.findAllAccounts();
 	}
 
+	public List<Account> getAllApplications() {
+		return loginDAO.findAllApplications();
+	}
 
 	public void deleteAccount(int targetAccount) {
 		loginDAO.deleteAccount(targetAccount);
+	}
+
+	public void approveDenyAccounts(int targetAccount, String applicationResponse) {
+		loginDAO.accessApplications(targetAccount, applicationResponse);
+	}
+
+
+	public Account copyOneAccount(int targetAccount) {
+		return loginDAO.getAccountCopy(targetAccount);
+	}
+
+	public void pasteOneAccount(Account account) {
+		loginDAO.pasteAccount(account);
+		
+	}
+
+	public void deleteApplication(int targetAccount, String applicationResponse) {
+		loginDAO.deleteApplication(targetAccount, applicationResponse);
 		
 	}
 
 
-
-
-	
-
-
-	
-	
-	
-	
 }

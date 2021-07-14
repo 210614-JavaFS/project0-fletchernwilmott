@@ -1,5 +1,6 @@
 package com.revature.controllers;
 
+import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Scanner;
 
@@ -113,21 +114,48 @@ public class LoginController {
 					+ "4. Exit to the homepage");
 			
 			String response = sc.nextLine();
+			String targetUsername;
+			String applicationResponse;
+			int targetAccount;
+			
 			
 			switch(response) {
 			case "1":
 				System.out.println("Plese input the account number of the account you want to view");
-				int targetAccount = sc.nextInt();
+				targetAccount = sc.nextInt();
 				sc.nextLine();
 				showOneCustomer(targetAccount);
 				break;
 			case "2":
 				System.out.println("Plese input the username of the person you want to view");
-				String targetUsername = sc.nextLine();
+				targetUsername = sc.nextLine();
 				showOnePerson(targetUsername);
 				break;
 			case "3":
-				//do later
+				showAllApplications();
+				System.out.println("Please enter the account number of the account you want to approve or deny");
+				try{
+					targetAccount = sc.nextInt();
+					sc.nextLine();
+				}
+				catch(InputMismatchException e) {
+					continue employeeMenuLoop;
+				}
+				System.out.println("Next, please enter whether you want to approve or deny this account (A/D)");
+				applicationResponse = sc.nextLine().toUpperCase();
+				
+				if(applicationResponse.equals("A")) {
+					Account account = copyAccount(targetAccount);
+					pasteAccount(account);
+					deleteApplication(targetAccount, applicationResponse);
+				}
+				else if(applicationResponse.equals("D")) {
+					deleteApplication(targetAccount, applicationResponse);
+				}
+				else {
+					System.out.println("Did not enter approve (A) or deny (D), exiting to menu");
+					continue employeeMenuLoop;
+				}	
 				break;
 			case "4":
 				System.out.println("Logging out, returning to homepage");
@@ -136,6 +164,21 @@ public class LoginController {
 				System.out.println("Not a valid option, try again");
 			}
 		}
+	}
+
+	
+	private Account copyAccount(int targetAccount) {
+		return loginService.copyOneAccount(targetAccount);
+	}
+	
+	private void pasteAccount(Account account) {
+		loginService.pasteOneAccount(account);
+		
+	}
+	
+	private void deleteApplication(int targetAccount, String applicationResponse) {
+		loginService.deleteApplication(targetAccount, applicationResponse);
+		
 	}
 	
 	private void showOneCustomer(int targetAccount) {
@@ -174,11 +217,12 @@ public class LoginController {
 			
 			
 			String response = sc.nextLine();
-			int sourceAccount = 0;
-			int targetAccount = 0;
-			double deposit = 0;
-			double withdrawl = 0;
-			double transfer = 0;
+			String applicationResponse;
+			int sourceAccount;
+			int targetAccount;
+			double deposit;
+			double withdrawl;
+			double transfer;
 			
 			
 			switch(response) {
@@ -222,6 +266,30 @@ public class LoginController {
 					makeTransfer(sourceAccount, targetAccount, transfer);
 					break;
 				case "5":
+					showAllApplications();
+					System.out.println("Please enter the account number of the account you want to approve or deny");
+					try{
+						targetAccount = sc.nextInt();
+						sc.nextLine();
+					}
+					catch(InputMismatchException e) {
+						continue adminMenuLoop;
+					}
+					System.out.println("Next, please enter whether you want to approve or deny this account (A/D)");
+					applicationResponse = sc.nextLine().toUpperCase();
+					
+					if(applicationResponse.equals("A")) {
+						Account account = copyAccount(targetAccount);
+						pasteAccount(account);
+						deleteApplication(targetAccount, applicationResponse);
+					}
+					else if(applicationResponse.equals("D")) {
+						deleteApplication(targetAccount, applicationResponse);
+					}
+					else {
+						System.out.println("Did not enter approve (A) or deny (D), exiting to menu");
+						continue adminMenuLoop;
+					}	
 					break;
 				case "6":
 					System.out.println("Please enter the account number of the account you want to delete");
@@ -244,6 +312,12 @@ public class LoginController {
 
 	private void showAllAccounts() {
 		List<Account> accounts = loginService.getAllAccounts();
+		for(Account a:accounts) {
+			System.out.println(a);
+		}
+	}
+	private void showAllApplications() {
+		List<Account> accounts = loginService.getAllApplications();
 		for(Account a:accounts) {
 			System.out.println(a);
 		}
