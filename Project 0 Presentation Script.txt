@@ -1,0 +1,93 @@
+Good morning everyone my names Fletcher and today im going to be showing you my bank account management app
+I only have 5 mins so im gonna go fast, there will be time for questions at the end
+
+This was built as a simple maven project using java 8, and utilizes JDBC to connect to a postgresql database hosted on AWS
+
+To begin we need to add a person to our person database,
+we need to know a little bit about who you are before we let you apply for an account
+
+a
+hong
+wu
+hongwu
+
+*show the user_info table in DBeaver*
+then we can apply to create a checking or savings account for hong
+
+c
+4
+hongwu
+password
+c
+c
+
+this will create an account application which must be approved by an employee or admin
+*show the account_applications table in DBeaver*
+as you can see, hongs application was added
+
+next lets login to the employee1 account which already exists to accept hongs application
+
+l
+employee1
+employee1
+2
+
+this takes me to the employee menu
+
+3
+4
+a
+
+as you can see hongs application was removed from the list, and a checkings account was created for him
+*show the account_applications table in DBeaver*
+*show the account_info table in DBeaver*
+
+lets go login to hongs account now and make some transactions
+
+*exit to homepage*
+
+l
+hongwu
+password
+4
+
+as you can see, since hong is a customer he has a different menu available to him than my admin account
+now lets make a deposit
+
+1
+100
+
+*show the account_info table in DBeaver*
+we deposited a little too much so now lets withdraw some
+
+2
+20.21
+
+lastly, lets transfer some of hongs money over to employee1
+
+3
+1
+13.37
+
+*show the account_info table in DBeaver*
+as you can see, the money has been successfully transferred to employee1
+
+lastly, lets go to the admin menu and delete hongs account because he committed tax fraud
+
+4
+l
+admin1
+admin1
+1
+6
+4
+
+*show the account_info table in DBeaver*
+lets take one last look at the account_info table
+as you can see, hongs account is now gone
+
+that is all the time i have, any questions?
+
+
+
+

@@ -38,15 +38,3 @@ INSERT INTO account_info(account_number, username, pass_word, access_type, accou
 	(2, 'employee1', 'employee1', 'E', 'C', 0),
 	(3, 'customer1', 'customer1', 'C', 'C', 50);
 	
-DELETE FROM account_applications WHERE account_number = 5;
-DELETE FROM user_info WHERE username = 'freedom';
-
-SELECT * FROM account_info WHERE account_number = 3 AND account_type = 'C';
-
-DELETE FROM account_info WHERE account_number = 5;
-
-
-INSERT INTO account_applications(account_number, username, pass_word, access_type, account_type, balance)
-	values(5, 'evan1', 'evan1', 'C', 'C', '0');
-
-SELECT * FROM account_applications WHERE account_number = 5;
